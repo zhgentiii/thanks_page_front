@@ -8,18 +8,21 @@ export default function PersonInfoCard() {
     <Card
       sx={{
         width: "100%",
-        padding: { xs: 2, md: 3 },
+        height: "280px",
         borderRadius: "20px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <CardContent>
-        <Box sx={{ display: "flex", m: 3, gap: 3 }}>
+        <Box sx={{ display: "flex", m: 4, gap: 3 }}>
           <PersonIcon />
-          <Typography variant="subtitle2">PersonName</Typography>
+          <Typography variant="subtitle1">PersonName</Typography>
         </Box>
-        <Box sx={{ display: "flex", m: 3, gap: 3 }}>
+        <Box sx={{ display: "flex", m: 4, gap: 3 }}>
           <LocalPhoneIcon />
-          <Typography variant="subtitle2">person phone number</Typography>
+          <Typography variant="subtitle1">person phone number</Typography>
         </Box>
       </CardContent>
     </Card>

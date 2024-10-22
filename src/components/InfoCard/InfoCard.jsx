@@ -7,9 +7,12 @@ export default function AttentionCard() {
   return (
     <Card
       sx={{
-        width: "100%", // Use full width on mobile
-        padding: { xs: 2, md: 3 },
+        width: "100%",
+        height: "280px",
         borderRadius: "20px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
       }}
     >
       <CardHeader
@@ -25,8 +28,15 @@ export default function AttentionCard() {
             Attention
           </Typography>
         }
+        sx={{ textAlign: "center", mb: 1 }}
       />
-      <CardContent>
+      <CardContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+        }}
+      >
         {attentionListOfConditions.map((attention, index) => (
           <Box
             key={index}
