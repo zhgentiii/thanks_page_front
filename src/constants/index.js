@@ -12,7 +12,7 @@ export const positiveFeedbackList = [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAbD3nm6LSxrJ7JWUuKM4txH6NhvxRG7m6VA&s",
     comment: "Very cool site :) <3",
     likes: 1,
-    time: "26m",
+    time: "4m",
     createdAt: "2023-10-22T14:30:00Z",
     emotions: [
       { emotion: "heart", count: 10 },
@@ -28,7 +28,7 @@ export const positiveFeedbackList = [
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     createdAt: new Date(),
     likes: 1,
-    time: "26m",
+    time: "3m",
     emotions: [
       { emotion: "like", count: 8 },
       { emotion: "laugh", count: 6 },
@@ -39,7 +39,7 @@ export const positiveFeedbackList = [
     avatar: "https://randomuser.me/api/portraits/women/44.jpg",
     comment: "I love using this platform!",
     likes: 2,
-    time: "15m",
+    time: "2m",
     createdAt: "2023-10-22T15:00:00Z",
     emotions: [
       { emotion: "heart", count: 12 },
@@ -51,7 +51,7 @@ export const positiveFeedbackList = [
     avatar: "https://randomuser.me/api/portraits/men/43.jpg",
     comment: "This is the best service I have ever used!",
     likes: 5,
-    time: "10m",
+    time: "1m",
     createdAt: "2023-10-22T15:05:00Z",
     emotions: [
       { emotion: "like", count: 20 },

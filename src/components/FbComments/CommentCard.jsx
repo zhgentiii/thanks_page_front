@@ -11,7 +11,6 @@ import {
   IconButton,
 } from "@mui/material";
 
-// Reaction emojis and corresponding text color styles
 const emotionIcons = {
   like: { icon: "👍", text: "Like", color: "#1877f2" },
   heart: { icon: "❤️", text: "Love", color: "#f02849" },
@@ -70,44 +69,48 @@ function ReactionSummary({ reactions, likesCount }) {
   );
 }
 
-const TypingEffect = () => {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        fontSize: "1rem",
-        color: "#050505",
-      }}
-    >
-      <span className="dot">.</span>
-      <span className="dot">.</span>
-      <span className="dot">.</span>
-      <style jsx>{`
-        .dot {
-          animation: wave 1s infinite;
+const TypingEffect = () => (
+  <Box
+    sx={{
+      display: "flex",
+      alignItems: "flex-end",
+      justifyContent: "center",
+      fontSize: "2rem",
+      color: "#050505",
+      marginLeft: 1.5,
+      marginBottom: 2.3,
+    }}
+  >
+    <span className="dot">.</span>
+    <span className="dot">.</span>
+    <span className="dot">.</span>
+    <style jsx>{`
+      .dot {
+        animation: wave 1s infinite;
+        margin-bottom: 2px;
+      }
+      .dot:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .dot:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .dot:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes wave {
+        0%,
+        20%,
+        100% {
+          opacity: 0.2;
         }
-        .dot:nth-child(1) {
-          animation-delay: 0s;
+        10% {
+          opacity: 1;
         }
-        .dot:nth-child(2) {
-          animation-delay: 0.2s;
-        }
-        .dot:nth-child(3) {
-          animation-delay: 0.4s;
-        }
-        @keyframes wave {
-          0%, 20%, 100% {
-            opacity: 0.2;
-          }
-          10% {
-            opacity: 1;
-          }
-        }
-      `}</style>
-    </Box>
-  );
-};
+      }
+    `}</style>
+  </Box>
+);
 
 const CommentCard = ({ comment, isLastComment }) => {
   const {
@@ -122,6 +125,7 @@ const CommentCard = ({ comment, isLastComment }) => {
   const [reactions, setReactions] = useState(initialEmotions);
   const [currentReaction, setCurrentReaction] = useState(null);
   const [showComment, setShowComment] = useState(false);
+  const [showTypingEffect, setShowTypingEffect] = useState(true);
 
   useEffect(() => {
     const savedReaction = localStorage.getItem(`reaction_${name}`);
@@ -129,15 +133,15 @@ const CommentCard = ({ comment, isLastComment }) => {
       setCurrentReaction(savedReaction);
     }
 
-    // Show comment after a delay only for the last comment
     if (isLastComment) {
       const timer = setTimeout(() => {
+        setShowTypingEffect(false);
         setShowComment(true);
-      }, 2000); // 2 seconds for typing effect
+      }, 5000); // 5 seconds
 
       return () => clearTimeout(timer);
     } else {
-      setShowComment(true); // Show immediately for other comments
+      setShowComment(true);
     }
   }, [name, isLastComment]);
 
@@ -152,35 +156,33 @@ const CommentCard = ({ comment, isLastComment }) => {
   const open = Boolean(anchorEl);
 
   const updateReaction = (newReaction) => {
-    if (currentReaction === newReaction) {
-      setCurrentReaction(null);
-      const updatedReactions = reactions.map((reaction) =>
-        reaction.emotion === newReaction
-          ? { ...reaction, count: reaction.count - 1 }
-          : reaction
-      );
-      setReactions(updatedReactions);
-      localStorage.removeItem(`reaction_${name}`);
-    } else {
-      const updatedReactions = reactions.map((reaction) =>
-        reaction.emotion === newReaction
-          ? { ...reaction, count: reaction.count + 1 }
-          : reaction
-      );
-      setCurrentReaction(newReaction);
-      setReactions(updatedReactions);
-      localStorage.setItem(`reaction_${name}`, newReaction);
-    }
+    const updatedReactions = reactions.map((reaction) =>
+      reaction.emotion === newReaction
+        ? {
+            ...reaction,
+            count:
+              currentReaction === newReaction
+                ? reaction.count - 1
+                : reaction.count + 1,
+          }
+        : reaction
+    );
+
+    setCurrentReaction(currentReaction === newReaction ? null : newReaction);
+    setReactions(updatedReactions);
+    localStorage.setItem(
+      `reaction_${name}`,
+      currentReaction === newReaction ? null : newReaction
+    );
     handleClose();
   };
 
   const renderReactionButton = () => {
     const reaction = emotionIcons[currentReaction];
-    if (!reaction) {
-      return { text: "Like", color: "#65676b" };
-    }
-
-    return { text: reaction.text, color: reaction.color };
+    return {
+      text: reaction ? reaction.text : "Like",
+      color: reaction ? reaction.color : "#65676b",
+    };
   };
 
   return (
@@ -234,27 +236,62 @@ const CommentCard = ({ comment, isLastComment }) => {
               position: "relative",
             }}
           >
-            <Link
-              href="#"
-              underline="none"
-              sx={{ color: "#050505", fontWeight: "bold", fontSize: "0.95rem" }}
-            >
-              {name}
-            </Link>
-            {showComment ? (
-              <Typography
-                variant="body2"
-                sx={{ color: "#050505", marginTop: "4px" }}
+            {showTypingEffect && isLastComment ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 0.5,
+                }}
               >
-                {message}
-              </Typography>
+                <Link
+                  href="#"
+                  underline="none"
+                  sx={{
+                    color: "#050505",
+                    fontWeight: "bold",
+                    fontSize: "10px",
+                  }}
+                >
+                  {name}{" "}
+                  <span style={{ fontSize: "10px", color: "grey" }}>
+                    typing
+                  </span>
+                </Link>
+                <TypingEffect />
+              </Box>
             ) : (
-              isLastComment && <TypingEffect />
+              showComment && (
+                <>
+                  <Link
+                    href="#"
+                    underline="none"
+                    sx={{
+                      color: "#050505",
+                      fontWeight: "bold",
+                      fontSize: "0.95rem",
+                    }}
+                  >
+                    {name}
+                  </Link>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "#050505", marginTop: "4px" }}
+                  >
+                    {message}
+                  </Typography>
+                </>
+              )
             )}
-            <ReactionSummary
-              reactions={reactions}
-              likesCount={reactions.reduce((acc, curr) => acc + curr.count, 0)}
-            />
+            {!isLastComment && (
+              <ReactionSummary
+                reactions={reactions}
+                likesCount={reactions.reduce(
+                  (acc, curr) => acc + curr.count,
+                  0
+                )}
+              />
+            )}
           </Box>
         </CardContent>
 
@@ -267,26 +304,30 @@ const CommentCard = ({ comment, isLastComment }) => {
             alignItems: "center",
           }}
         >
-          <Button
-            variant="text"
-            size="small"
-            sx={{
-              color: renderReactionButton().color,
-              fontSize: "0.8rem",
-              textTransform: "none",
-              padding: "0px 8px",
-              minWidth: "auto",
-            }}
-            onClick={handleClick}
-          >
-            {renderReactionButton().text}
-          </Button>
-          <Typography
-            variant="caption"
-            sx={{ color: "#65676b", paddingLeft: "8px" }}
-          >
-            {time}
-          </Typography>
+          {(!isLastComment || (isLastComment && !showTypingEffect)) && (
+            <>
+              <Button
+                variant="text"
+                size="small"
+                sx={{
+                  color: renderReactionButton().color,
+                  fontSize: "0.8rem",
+                  textTransform: "none",
+                  padding: "0px 8px",
+                  minWidth: "auto",
+                }}
+                onClick={handleClick}
+              >
+                {renderReactionButton().text}
+              </Button>
+              <Typography
+                variant="caption"
+                sx={{ color: "#65676b", paddingLeft: "8px" }}
+              >
+                {isLastComment ? "1m" : time}
+              </Typography>
+            </>
+          )}
         </Box>
       </Card>
 
@@ -302,7 +343,14 @@ const CommentCard = ({ comment, isLastComment }) => {
         <Box sx={{ display: "flex", padding: "8px", gap: 1 }}>
           {Object.keys(emotionIcons).map((reaction) => (
             <IconButton key={reaction} onClick={() => updateReaction(reaction)}>
-              {emotionIcons[reaction].icon}
+              <span
+                style={{
+                  fontSize: "20px",
+                  color: emotionIcons[reaction].color,
+                }}
+              >
+                {emotionIcons[reaction].icon}
+              </span>
             </IconButton>
           ))}
         </Box>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion"; // Import necessary Framer Motion components
+import { motion, AnimatePresence } from "framer-motion";
 import "./../../App.css";
 import { positiveFeedbackList } from "../../constants";
 import CommentCard from "../FbComments/CommentCard";
-import "./FeedbackCarousel.css"; // Import your CSS file for custom styles
+import "./FeedbackCarousel.css"; 
 
 const FeedbackCarousel = () => {
   const [comments, setComments] = useState(positiveFeedbackList);
@@ -19,23 +19,21 @@ const FeedbackCarousel = () => {
       setVisibleComments((prev) => {
         if (comments.length === 0) return [];
 
-        // If we have less than 3 visible comments, add more
         if (prev.length < 3 && prev.length < comments.length) {
           return [...prev, comments[prev.length]];
         } else if (prev.length >= 3) {
-          // Remove the first comment (left) and add the next comment
           const newComments = [
             ...prev.slice(1),
             comments[
               (comments.indexOf(prev[prev.length - 1]) + 1) % comments.length
             ],
           ];
-          return newComments; // Shift left and add new comment
+          return newComments;
         }
 
-        return prev; // Return the current visible comments if no changes
+        return prev;
       });
-    }, 3000); // Adjust the time interval as needed
+    }, 10000);
 
     return () => clearInterval(interval);
   }, [comments]);
@@ -57,18 +55,18 @@ const FeedbackCarousel = () => {
         {visibleComments.map((commentData, index) => (
           <motion.div
             key={commentData.name}
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{ duration: 2 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
           >
             <CommentCard
               comment={commentData}
               isTyping={
-                visibleComments.length >= 3 &&
+                visibleComments.length >= 2 &&
                 index === visibleComments.length - 1
-              } // Typing effect on the last comment if there are 3 or more comments
-              isLastComment={index === visibleComments.length - 1} // To determine if it's the last comment
+              }
+              isLastComment={index === visibleComments.length - 1}
             />
           </motion.div>
         ))}
