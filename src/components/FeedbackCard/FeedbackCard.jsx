@@ -33,7 +33,7 @@ const FeedbackCarousel = () => {
 
         return prev;
       });
-    }, 10000);
+    }, 15000);
 
     return () => clearInterval(interval);
   }, [comments]);
