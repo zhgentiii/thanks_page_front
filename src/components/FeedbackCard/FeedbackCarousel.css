@@ -1,0 +1,24 @@
+.comment-card {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  opacity: 1; /* Default visibility */
+}
+
+.slide-in-right {
+  transform: translateX(100%); /* Start from the right */
+  opacity: 0; /* Initially invisible */
+}
+
+.slide-in-right {
+  transform: translateX(0); /* Slide to the original position */
+  opacity: 1; /* Fully visible */
+}
+
+.slide-out-left {
+  transform: translateX(0); /* Start at the original position */
+  opacity: 1; /* Fully visible */
+}
+
+.slide-out-left {
+  transform: translateX(-100%); /* Slide out to the left */
+  opacity: 0; /* Fade out */
+}

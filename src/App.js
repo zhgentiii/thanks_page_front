@@ -1,5 +1,4 @@
 import { Box, Container } from "@mui/material";
-import Typography from "@mui/material/Typography";
 import InfoCard from "./components/InfoCard/InfoCard";
 import PersonInfoCard from "./components/PersonInfoCard/PersonInfoCard";
 import FeedbackCarousel from "./components/FeedbackCard/FeedbackCard";
@@ -50,7 +49,7 @@ function App() {
               sx={{
                 display: { xs: "block", md: "none" },
                 width: "100%",
-                mb: 3, // Space below
+                mb: 3,
               }}
             >
               <FeedbackCarousel />
