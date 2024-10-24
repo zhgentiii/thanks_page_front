@@ -60,3 +60,12 @@ export const positiveFeedbackList = [
     ],
   },
 ];
+
+export const emotionIcons = {
+  like: { icon: "👍", text: "Like", color: "#1877f2" },
+  heart: { icon: "❤️", text: "Love", color: "#f02849" },
+  laugh: { icon: "😂", text: "Haha", color: "#f7b125" },
+  wow: { icon: "😯", text: "Wow", color: "#f7b125" },
+  sad: { icon: "😢", text: "Sad", color: "#f7b125" },
+  angry: { icon: "😡", text: "Angry", color: "#f02849" },
+};

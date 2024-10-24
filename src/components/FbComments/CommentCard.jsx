@@ -10,107 +10,10 @@ import {
   Popover,
   IconButton,
 } from "@mui/material";
+import { emotionIcons } from "../../constants/index"
 
-const emotionIcons = {
-  like: { icon: "👍", text: "Like", color: "#1877f2" },
-  heart: { icon: "❤️", text: "Love", color: "#f02849" },
-  laugh: { icon: "😂", text: "Haha", color: "#f7b125" },
-  wow: { icon: "😯", text: "Wow", color: "#f7b125" },
-  sad: { icon: "😢", text: "Sad", color: "#f7b125" },
-  angry: { icon: "😡", text: "Angry", color: "#f02849" },
-};
-
-function ReactionSummary({ reactions, likesCount }) {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        position: "absolute",
-        right: 0,
-        bottom: 0,
-        transform: "translate(-2px, 30px)",
-      }}
-    >
-      {reactions.slice(0, 3).map((reaction, index) => (
-        <Box
-          key={index}
-          sx={{
-            marginLeft: index === 0 ? 0 : "-8px",
-            zIndex: reactions.length - index,
-          }}
-        >
-          <Box
-            sx={{
-              backgroundColor: "#ffffff",
-              borderRadius: "50%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "20px",
-              height: "20px",
-            }}
-          >
-            {emotionIcons[reaction.emotion].icon}
-          </Box>
-        </Box>
-      ))}
-      <Typography
-        variant="body2"
-        sx={{
-          color: "#65676b",
-          fontSize: "0.9rem",
-          marginLeft: "4px",
-        }}
-      >
-        {likesCount} Likes
-      </Typography>
-    </Box>
-  );
-}
-
-const TypingEffect = () => (
-  <Box
-    sx={{
-      display: "flex",
-      alignItems: "flex-end",
-      justifyContent: "center",
-      fontSize: "2rem",
-      color: "#050505",
-      marginLeft: 1.5,
-      marginBottom: 2.3,
-    }}
-  >
-    <span className="dot">.</span>
-    <span className="dot">.</span>
-    <span className="dot">.</span>
-    <style jsx>{`
-      .dot {
-        animation: wave 1s infinite;
-        margin-bottom: 2px;
-      }
-      .dot:nth-child(1) {
-        animation-delay: 0s;
-      }
-      .dot:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-      .dot:nth-child(3) {
-        animation-delay: 0.4s;
-      }
-      @keyframes wave {
-        0%,
-        20%,
-        100% {
-          opacity: 0.2;
-        }
-        10% {
-          opacity: 1;
-        }
-      }
-    `}</style>
-  </Box>
-);
+import TypingEffect from "./TypingEffect/TypingEffect";
+import ReactionSummary from "./ReactionSummary/ReactionSummary"
 
 const CommentCard = ({ comment, isLastComment }) => {
   const {
@@ -137,7 +40,7 @@ const CommentCard = ({ comment, isLastComment }) => {
       const timer = setTimeout(() => {
         setShowTypingEffect(false);
         setShowComment(true);
-      }, 5000); // 5 seconds
+      }, 5000);
 
       return () => clearTimeout(timer);
     } else {

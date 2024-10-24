@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import "./../../App.css";
 import { positiveFeedbackList } from "../../constants";
 import CommentCard from "../FbComments/CommentCard";
-import "./FeedbackCarousel.css"; 
+import "./FeedbackCarousel.css";
 
 const FeedbackCarousel = () => {
   const [comments, setComments] = useState(positiveFeedbackList);
@@ -14,7 +14,6 @@ const FeedbackCarousel = () => {
     // Initialize with the first 3 comments
     setVisibleComments(comments.slice(0, 3));
 
-    // Start the interval to manage comments
     const interval = setInterval(() => {
       setVisibleComments((prev) => {
         if (comments.length === 0) return [];
